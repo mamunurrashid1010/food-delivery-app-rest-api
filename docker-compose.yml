@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: .docker/Dockerfile
+        image: 'food-delivery-app-rest-api'
+        ports:
+            - 8000:80
+        volumes:
+            - ./:/var/www/html
+    db:
+        image: mysql:5.7
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: 'foodDeliveryApp_db'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+            MYSQL_ROOT_PASSWORD: ""
+        volumes:
+            - ./db:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        ports:
+            - "3400:80"
+        depends_on:
+            - db
+
+    npm:
+        build:
+            context: .
+        image: node:current-alpine
+        working_dir: /var/www/html
+        entrypoint: ["npm"]
+        volumes:
+            - ./:/var/www/html
