@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RiderLocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 # rider location
 Route::post('store-rider-location',[RiderLocationController::class,'store'])->name('rider.location.store');
+
+# restaurant
+Route::apiResource('restaurants', RestaurantController::class);
