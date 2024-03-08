@@ -25,3 +25,6 @@ Route::post('store-rider-location',[RiderLocationController::class,'store'])->na
 
 # restaurant
 Route::apiResource('restaurants', RestaurantController::class);
+
+# nearest rider
+Route::get('nearest-rider', [RiderLocationController::class,'nearestRider'])->name('nearest.rider');

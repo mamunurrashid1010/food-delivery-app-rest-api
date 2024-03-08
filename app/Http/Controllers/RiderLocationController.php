@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Restaurant;
 use App\Models\RiderLocation;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,6 +39,27 @@ class RiderLocationController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Location stored successfully'
+        ]);
+    }
+
+    /**
+     * nearestRider
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function nearestRider(Request $request): JsonResponse
+    {
+        $request->validate([
+            'restaurant_id' => 'required|exists:restaurants,id',
+        ]);
+
+        $restaurantId = $request->input('restaurant_id');
+
+        $nearestRider = RiderLocation::nearestRiderToRestaurant($restaurantId);
+
+        return response()->json([
+            'status' => true,
+            'rider' => $nearestRider
         ]);
     }
 
